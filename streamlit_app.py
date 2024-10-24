@@ -16,12 +16,6 @@ st.markdown("""
         font-size: 1.2rem;
         margin-bottom: 30px;
     }
-    .footer {
-        text-align: center;
-        margin-top: 50px;
-        font-size: 0.9rem;
-        color: #888;
-    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -68,6 +62,3 @@ else:
         with st.chat_message("assistant"):
             response = st.write_stream(stream)
         st.session_state.messages.append({"role": "assistant", "content": response})
-
-# Rodapé alinhado ao centro, agora na parte inferior
-st.markdown('<div class="footer">Desenvolvido por GAID</div>', unsafe_allow_html=True)
