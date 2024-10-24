@@ -1,40 +1,87 @@
 import streamlit as st
 from openai import OpenAI
 
-# Show title and description.
-st.title("💬 Chatbot Galdí")
-st.write(
-    "Bem-vindo ao Chatbot Galdí! Este chatbot usa o modelo GPT-3.5 da OpenAI para gerar respostas. "
-)
+# Custom CSS for chat messages and overall style
+st.markdown("""
+    <style>
+    .title {
+        font-size: 3rem;
+        color: #ff4b4b;
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+    .description {
+        text-align: center;
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+    }
+    .user-message {
+        background-color: #d1f7ff;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        font-weight: bold;
+        color: #007acc;
+    }
+    .assistant-message {
+        background-color: #e8e8e8;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        font-style: italic;
+        color: #333;
+    }
+    .chat-input {
+        margin-top: 20px;
+        font-size: 1rem;
+        width: 100%;
+        padding: 10px;
+        border-radius: 10px;
+    }
+    .footer {
+        text-align: center;
+        margin-top: 50px;
+        font-size: 0.9rem;
+        color: #888;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
-# Acessar a chave de API diretamente do Streamlit Secrets
+# Title and description
+st.markdown('<div class="title">💬 Chatbot Galdí</div>', unsafe_allow_html=True)
+st.markdown('<div class="description">Bem-vindo ao Chatbot Galdí!</div>', unsafe_allow_html=True)
+
+# Access the OpenAI API key from Streamlit secrets
 openai_api_key = st.secrets["openai_api_key"]
 
 if not openai_api_key:
-    st.info("Por favor, adicione sua chave de API OpenAI nas configurações de segredos.", icon="🗝️")
+    st.error("Erro: Por favor, adicione sua chave de API do OpenAI no Streamlit Secrets.", icon="🗝️")
 else:
-    # Create an OpenAI client.
+    # Create an OpenAI client
     client = OpenAI(api_key=openai_api_key)
 
-    # Create a session state variable to store the chat messages. This ensures that the
-    # messages persist across reruns.
+    # Create a session state variable to store the chat messages
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
-    # Display the existing chat messages via `st.chat_message`.
+    # Display the existing chat messages
     for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
+        if message["role"] == "user":
+            st.markdown(f'<div class="user-message">{message["content"]}</div>', unsafe_allow_html=True)
+        else:
+            st.markdown(f'<div class="assistant-message">{message["content"]}</div>', unsafe_allow_html=True)
 
-    # Create a chat input field to allow the user to enter a message. This will display
-    # automatically at the bottom of the page.
-    if prompt := st.chat_input("Digite sua mensagem:"):
-        # Store and display the current prompt.
+    # Chat input field
+    prompt = st.text_input("Digite sua mensagem:", key="chat_input", placeholder="Escreva aqui...", label_visibility="hidden")
+    
+    # If the user submits a message
+    if prompt:
+        # Store and display the user's message
         st.session_state.messages.append({"role": "user", "content": prompt})
-        with st.chat_message("user"):
-            st.markdown(prompt)
+        st.markdown(f'<div class="user-message">{prompt}</div>', unsafe_allow_html=True)
 
-        # Generate a response using the OpenAI API.
+        # Generate a response from the assistant (OpenAI API)
         stream = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
@@ -44,8 +91,12 @@ else:
             stream=True,
         )
 
-        # Stream the response to the chat using `st.write_stream`, then store it in 
-        # session state.
-        with st.chat_message("assistant"):
+        # Stream the response and display it
+        with st.spinner("Galdí está pensando..."):
             response = st.write_stream(stream)
+        
         st.session_state.messages.append({"role": "assistant", "content": response})
+        st.markdown(f'<div class="assistant-message">{response}</div>', unsafe_allow_html=True)
+
+# Footer
+st.markdown('<div class="footer">Desenvolvido por GAID</div>', unsafe_allow_html=True)
