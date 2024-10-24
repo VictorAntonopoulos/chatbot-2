@@ -47,7 +47,7 @@ else:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-    # Campo de entrada para o usuário digitar uma mensagem
+    # Caixa de entrada do usuário, agora abaixo da descrição
     if prompt := st.chat_input("Digite sua mensagem:"):
         # Armazenar e exibir a mensagem do usuário
         st.session_state.messages.append({"role": "user", "content": prompt})
@@ -69,5 +69,5 @@ else:
             response = st.write_stream(stream)
         st.session_state.messages.append({"role": "assistant", "content": response})
 
-# Rodapé alinhado ao centro
+# Rodapé alinhado ao centro, agora na parte inferior
 st.markdown('<div class="footer">Desenvolvido por GAID</div>', unsafe_allow_html=True)
