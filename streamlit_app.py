@@ -20,7 +20,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Título e descrição alinhados ao centro
-st.markdown('<div class="title">💬 Chatbot Galdí</div>', unsafe_allow_html=True)
+st.markdown('<div class="title">🤖 Chatbot Galdí</div>', unsafe_allow_html=True)
 st.markdown('<div class="description">Bem-vindo ao Chatbot Galdí!</div>', unsafe_allow_html=True)
 
 # Acessar a chave de API diretamente do Streamlit Secrets
