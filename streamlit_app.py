@@ -1,64 +1,68 @@
 import streamlit as st
-from openai import OpenAI
+import requests
 
-# Custom CSS for centering and styling
-st.markdown("""
-    <style>
-    .title {
-        font-size: 3rem;
-        color: #003366; /* Azul escuro */
-        text-align: center;
-        font-weight: bold;
-        margin-bottom: 20px;
+# Configurações da Interface
+st.markdown("<h1 style='text-align: center; color: #00274D;'>💬 Chatbot Galdí</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center;'>Bem-vindo ao Chatbot Galdí!</p>", unsafe_allow_html=True)
+
+# Obter as credenciais do Watson a partir do segredo do Streamlit
+api_key = st.secrets["watson_api_key"]
+url = f"{st.secrets['watson_url']}/v2/assistants/c6aabe50-9141-4f22-ba88-11e236849fd9/sessions"
+
+# Função para iniciar uma sessão
+def iniciar_sessao():
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {api_key}",
     }
-    .description {
-        text-align: center;
-        font-size: 1.2rem;
-        margin-bottom: 30px;
+    response = requests.post(url, headers=headers)
+    
+    if response.status_code == 201:
+        return response.json().get("session_id")
+    else:
+        st.error("Erro ao iniciar a sessão. Verifique a chave API e a URL.")
+        return None
+
+# Função para enviar mensagem ao Watson Assistant
+def enviar_mensagem(session_id, mensagem):
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {api_key}",
     }
-    </style>
-""", unsafe_allow_html=True)
+    mensagem_url = f"{url}/{session_id}/message"
+    payload = {
+        "input": {
+            "text": mensagem
+        }
+    }
+    response = requests.post(mensagem_url, headers=headers, json=payload)
+    
+    if response.status_code == 200:
+        return response.json()["output"]["generic"][0]["text"]
+    else:
+        st.error("Erro ao enviar a mensagem para o Watson Assistant.")
+        return None
 
-# Título e descrição alinhados ao centro
-st.markdown('<div class="title">💬 Chatbot Galdí</div>', unsafe_allow_html=True)
-st.markdown('<div class="description">Bem-vindo ao Chatbot Galdí!</div>', unsafe_allow_html=True)
+# Criar uma sessão de chat com o Watson Assistant
+session_id = iniciar_sessao()
 
-# Acessar a chave de API diretamente do Streamlit Secrets
-openai_api_key = st.secrets["openai_api_key"]
-
-if not openai_api_key:
-    st.info("Por favor, adicione sua chave de API OpenAI nas configurações de segredos.", icon="🗝️")
-else:
-    # Criar cliente OpenAI
-    client = OpenAI(api_key=openai_api_key)
-
-    # Criar uma variável de estado de sessão para armazenar as mensagens
+# Validar a sessão antes de prosseguir
+if session_id:
+    # Sessão para manter o histórico das mensagens
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
-    # Exibir as mensagens existentes
-    for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
+    # Mostrar mensagens de histórico
+    for msg in st.session_state.messages:
+        st.write(f"{msg['role']}: {msg['content']}")
 
-    # Caixa de entrada do usuário, agora abaixo da descrição
-    if prompt := st.chat_input("Digite sua mensagem:"):
-        # Armazenar e exibir a mensagem do usuário
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        with st.chat_message("user"):
-            st.markdown(prompt)
-
-        # Gerar resposta usando a API OpenAI
-        stream = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": m["role"], "content": m["content"]}
-                for m in st.session_state.messages
-            ],
-            stream=True,
-        )
-
-        # Exibir a resposta do chatbot
-        with st.chat_message("assistant"):
-            response = st.write_stream(stream)
-        st.session_state.messages.append({"role": "assistant", "content": response})
+    # Caixa de entrada do usuário
+    user_input = st.text_input("Digite sua mensagem:", "")
+    if st.button("Enviar") and user_input:
+        # Enviar a mensagem do usuário e exibir a resposta
+        st.session_state.messages.append({"role": "Você", "content": user_input})
+        resposta = enviar_mensagem(session_id, user_input)
+        
+        if resposta:
+            st.session_state.messages.append({"role": "Galdí", "content": resposta})
+            st.write(f"Galdí: {resposta}")
