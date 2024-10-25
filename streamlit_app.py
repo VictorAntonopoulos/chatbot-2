@@ -6,7 +6,7 @@ st.markdown("<h1 style='text-align: center; color: #00274D;'>💬 Chatbot Galdí
 st.markdown("<p style='text-align: center;'>Bem-vindo ao Chatbot Galdí!</p>", unsafe_allow_html=True)
 
 # Definindo a URL do Watson Assistant e a API Key dos segredos
-assistant_url = "https://api.au-syd.assistant.watson.cloud.ibm.com/v2/assistants/c6aabe50-9141-4f22-ba88-11e236849fd9"
+assistant_url = "https://api.au-syd.assistant.watson.cloud.ibm.com/v2/assistants/c6aabe50-9141-4f22-ba88-11e236849fd9/sessions"
 api_key = st.secrets["watson_api_key"]
 
 # Função para iniciar sessão
