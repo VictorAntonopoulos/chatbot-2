@@ -5,8 +5,8 @@ import requests
 st.markdown("<h1 style='text-align: center; color: #00274D;'>💬 Chatbot Galdí</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center;'>Bem-vindo ao Chatbot Galdí!</p>", unsafe_allow_html=True)
 
-# URL base do Watson Assistant (definida diretamente no código)
-url_base = "https://api.au-syd.assistant.watson.cloud.ibm.com/v2/assistants/c6aabe50-9141-4f22-ba88-11e236849fd9/sessions"
+# URL base do Watson Assistant a partir do `secrets.toml`
+url_base = st.secrets["watson_url"]  # A chave deve ser 'watson_url' no secrets.toml
 
 # Função para iniciar uma sessão
 def iniciar_sessao():
