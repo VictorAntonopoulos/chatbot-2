@@ -1,35 +1,28 @@
 import streamlit as st
 import requests
 
-# Configurações da Interface
+# Interface do usuário
 st.markdown("<h1 style='text-align: center; color: #00274D;'>💬 Chatbot Galdí</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center;'>Bem-vindo ao Chatbot Galdí!</p>", unsafe_allow_html=True)
 
-# Obter as credenciais do Watson a partir do segredo do Streamlit
-api_key = st.secrets["watson_api_key"]
-url = f"{st.secrets['watson_url']}/v2/assistants/c6aabe50-9141-4f22-ba88-11e236849fd9/sessions"
+# URL completa do Watson Assistant, incluindo chave de API, a partir do `secrets.toml`
+url_base = st.secrets["watson_url"]
 
 # Função para iniciar uma sessão
 def iniciar_sessao():
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {api_key}",
-    }
-    response = requests.post(url, headers=headers)
+    headers = {"Content-Type": "application/json"}
+    response = requests.post(url_base, headers=headers)
     
     if response.status_code == 201:
         return response.json().get("session_id")
     else:
-        st.error("Erro ao iniciar a sessão. Verifique a chave API e a URL.")
+        st.error("Erro ao iniciar a sessão. Verifique a URL completa.")
         return None
 
 # Função para enviar mensagem ao Watson Assistant
 def enviar_mensagem(session_id, mensagem):
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {api_key}",
-    }
-    mensagem_url = f"{url}/{session_id}/message"
+    headers = {"Content-Type": "application/json"}
+    mensagem_url = f"{url_base}/{session_id}/message"
     payload = {
         "input": {
             "text": mensagem
@@ -46,20 +39,17 @@ def enviar_mensagem(session_id, mensagem):
 # Criar uma sessão de chat com o Watson Assistant
 session_id = iniciar_sessao()
 
-# Validar a sessão antes de prosseguir
 if session_id:
-    # Sessão para manter o histórico das mensagens
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
-    # Mostrar mensagens de histórico
+    # Exibir o histórico de mensagens
     for msg in st.session_state.messages:
         st.write(f"{msg['role']}: {msg['content']}")
 
     # Caixa de entrada do usuário
     user_input = st.text_input("Digite sua mensagem:", "")
     if st.button("Enviar") and user_input:
-        # Enviar a mensagem do usuário e exibir a resposta
         st.session_state.messages.append({"role": "Você", "content": user_input})
         resposta = enviar_mensagem(session_id, user_input)
         
