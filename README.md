@@ -254,7 +254,6 @@ az vm open-port --resource-group RG-ChallengeNET --name VM-ChallengeNET --port 8
 ```
 ### Exemplo de Requisição: Criar Moto (POST /api/Moto)
 
-**Request Body (JSON):**
 ```json
 {
   "id": 2,
