@@ -262,7 +262,7 @@ az vm open-port --resource-group RG-ChallengeNET --name VM-ChallengeNET --port 8
   "ano": 2023,
   "rfidTag": "RFID123456"
 }
-
+```
 2️⃣ Atualizar Moto, Requisição: (PUT /api/moto/{id}
 
 {
