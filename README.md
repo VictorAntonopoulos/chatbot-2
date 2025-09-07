@@ -256,10 +256,10 @@ az vm open-port --resource-group RG-ChallengeNET --name VM-ChallengeNET --port 8
 
 ```json
 {
-  "id": 2,
-  "patioId": 0,
-  "placa": "strings",
-  "modelo": 0,
-  "ano": 2026,
-  "rfidTag": "string"
+  "patioId": 1,
+  "placa": "ABC1234",
+  "modelo": "HondaCG160",
+  "ano": 2023,
+  "rfidTag": "RFID123456"
+}
 }
