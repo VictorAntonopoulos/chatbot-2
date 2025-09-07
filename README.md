@@ -263,13 +263,12 @@ az vm open-port --resource-group RG-ChallengeNET --name VM-ChallengeNET --port 8
   "rfidTag": "RFID123456"
 }
 
-## 2️⃣ Atualizar Moto
+2️⃣ Atualizar Moto
 
-**Endpoint:** `PUT /api/moto/{id}`
+PUT /api/moto/{id}`
 
-**Requisição:**
+Requisição:
 
-```json
 {
   "patioId": 2,
   "placa": "XYZ9876",
