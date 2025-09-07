@@ -63,11 +63,13 @@ Abaixo estão as rotas implementadas, baseadas nos controllers fornecidos. Todas
 ### 🅿️PatioController
 
 -   **GET /api/patio**\
-    Lista todos os pátios cadastrados.
--   **GET /api/patio/{id}**\
-    Retorna um pátio específico pelo ID.
--   **POST /api/patio**\
+    Recupera todos os pátios cadastrados no sistema com paginação.
+    **POST /api/patio**\
     Cria um novo pátio.
+-   **GET /api/patio/all**\
+    Recupera todos os pátios cadastrados no sistema.
+-   **GET /api/patio/{id}**\
+    Recupera um pátio específico pelo seu ID.
 -   **DELETE /api/patio/{id}**\
     Remove um pátio existente.
 
@@ -79,28 +81,32 @@ Abaixo estão as rotas implementadas, baseadas nos controllers fornecidos. Todas
 ### 🔌SensorRFIDController
 
 -   **GET /api/sensorRFID**\
-    Lista todos os sensores RFID cadastrados.
--   **GET /api/sensorRFID/{id}**\
-    Retorna um sensor RFID específico pelo ID.
--   **POST /api/sensorRFID**\
+    Recupera todos os sensores RFID cadastrados com paginação.
+    **POST /api/sensorRFID**\
     Cria um novo sensor RFID.
+-   **GET /api/sensorRFID/all**\
+    Recupera todos os sensores RFID cadastrados.
+-   **GET /api/sensorRFID/{id}**\
+    Recupera um sensor RFID específico pelo seu ID.
 -   **PUT /api/sensorRFID/{id}**\
     Atualiza um sensor RFID existente.
 -   **DELETE /api/sensorRFID/{id}**\
-    Remove um sensor RFID.
+    Remove um sensor RFID existente.
 
 ### 🏗️ZonaPatioController
 
 -   **GET /api/zonaPatio**\
-    Lista todas as zonas de pátio cadastradas.
--   **GET /api/zonaPatio/{id}**\
-    Retorna uma zona de pátio específica pelo ID.
--   **POST /api/zonaPatio**\
+    Recupera todas as zonas do pátio cadastradas com paginação.
+    **POST /api/zonaPatio**\
     Cria uma nova zona de pátio.
+-   **GET /api/zonaPatio/all**\
+    Recupera todas as zonas de pátio cadastradas.
+-   **GET /api/zonaPatio/{id}**\
+    Recupera uma zona de pátio específica pelo seu ID.
 -   **PUT /api/zonaPatio/{id}**\
     Atualiza uma zona de pátio existente.
 -   **DELETE /api/zonaPatio/{id}**\
-    Remove uma zona de pátio.
+    Remove uma zona de pátio existente.
 
 ### 1️⃣ Exemplo de Requisição: Criar Moto (POST /api/Moto)
 
