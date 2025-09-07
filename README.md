@@ -1,7 +1,7 @@
-Trackin.API - Sprint 3 / CP 04 .NET
+📌Trackin.API - Sprint 3 / CP 04 .NET
 ======================
 
-Descrição do Projeto
+📖Descrição do Projeto
 --------------------
 
 O **Trackin.API** é uma API RESTful desenvolvida com ASP.NET Core 8 para automatizar o mapeamento e monitoramento de motocicletas nos pátios da Mottu. Esta solução integra tecnologias como RFID e visão computacional (ML.NET) para localização em tempo real, utilizando uma arquitetura em camadas robusta. A implementação desta primeira sprint foca nos requisitos iniciais:
@@ -12,37 +12,55 @@ O **Trackin.API** é uma API RESTful desenvolvida com ASP.NET Core 8 para automa
 
 O domínio está completamente mapeado com todas as entidades definidas, mas nem todas as rotas definidas foram implementadas até o momento.
 
-Participantes
+## 🌐 Descrição do Domínio
+
+O **Trackin.API** organiza e gerencia o monitoramento de motocicletas nos pátios da Mottu, fornecendo **rastreamento em tempo real**, registro de localização, status e movimentação das motos, além de gestão de pátios e sensores.  
+
+A aplicação segue uma **arquitetura em camadas**, garantindo escalabilidade e facilidade de manutenção, e está estruturada com as seguintes regras de negócio e conceitos do domínio:
+
+- Cada **Moto** pertence a um único **Pátio** e possui um **RFID único**. Seu modelo e ano são validados, garantindo consistência nos registros.
+- Os **Pátios** são representados com dimensões físicas, endereço completo e planta baixa opcional, permitindo localizar e organizar zonas internas.
+- Cada **Zona do Pátio** define uma área específica, com tipo (como entrada, saída ou estacionamento), coordenadas e cor de identificação.
+- Os **Sensores RFID** são vinculados a zonas, registrando leituras automáticas das motos, incluindo posição, altura e ângulo de visão.
+- As **leituras de RFID** são armazenadas com timestamp, status da moto e confiabilidade da informação, permitindo monitoramento preciso.
+- A API oferece **CRUD completo** para todas as entidades principais, consultas parametrizadas, paginação e ordenação dos resultados.
+
+O domínio garante **consistência, rastreabilidade e integridade dos dados**, permitindo expansão futura para monitoramento avançado, relatórios e integrações externas.
+
+
+👨‍💻Participantes
 -------------------
 - Julia Brito - RM 558831
 - Leandro Correia - RM 556203
 - Victor Antonopoulos - RM 556313
 
-Rotas Implementadas
+📌Rotas Implementadas
 -------------------
 
 Abaixo estão as rotas implementadas, baseadas nos controllers fornecidos. Todas seguem padrões RESTful e retornam os status HTTP apropriados (200 OK, 201 Created, 204 No Content, 400 Bad Request, 404 Not Found, 500 Internal Server Error).
 
-### MotoController
+### 🚲MotoController
 
--   **GET /api/moto**\
-    Lista todas as motos cadastradas.
--   **GET /api/moto/{id}**\
-    Retorna uma moto específica pelo ID.
--   **GET /api/moto/patio/{patioId}**\
-    Lista todas as motos de um determinado pátio.
--   **GET /api/moto/status/{status}**\
-    Lista todas as motos com um status específico (ex.: Disponível, Em Manutenção).
 -   **POST /api/moto**\
     Cria uma nova moto.
+-   **GET /api/moto**\
+    Retorna motos com paginação.
+-   **GET /api/moto/{id}**\
+    Retorna uma moto pelo seu ID.
 -   **PUT /api/moto/{id}**\
     Atualiza uma moto existente.
 -   **DELETE /api/moto/{id}**\
     Exclui uma moto pelo ID.
+-   **GET /api/moto/all**\
+    Retorna todas as motos.
+-   **GET /api/moto/patio/{patioid}**\
+    Retorna todas as motos de um determinado pátio com paginação.
+-   **GET /api/moto/status/{status}**\
+    Retorna motos por status com paginação.
 -   **POST /api/moto/{id}/imagem**\
     Adiciona uma imagem base64 como referência para uma moto.
 
-### PatioController
+### 🅿️PatioController
 
 -   **GET /api/patio**\
     Lista todos os pátios cadastrados.
@@ -53,12 +71,12 @@ Abaixo estão as rotas implementadas, baseadas nos controllers fornecidos. Todas
 -   **DELETE /api/patio/{id}**\
     Remove um pátio existente.
 
-### RFIDController
+### 📡RFIDController
 
 -   **POST /api/rfid**\
     Processa uma leitura RFID e atualiza a localização/status da moto.
 
-### SensorRFIDController
+### 🔌SensorRFIDController
 
 -   **GET /api/sensorRFID**\
     Lista todos os sensores RFID cadastrados.
@@ -71,7 +89,7 @@ Abaixo estão as rotas implementadas, baseadas nos controllers fornecidos. Todas
 -   **DELETE /api/sensorRFID/{id}**\
     Remove um sensor RFID.
 
-### ZonaPatioController
+### 🏗️ZonaPatioController
 
 -   **GET /api/zonaPatio**\
     Lista todas as zonas de pátio cadastradas.
@@ -84,12 +102,34 @@ Abaixo estão as rotas implementadas, baseadas nos controllers fornecidos. Todas
 -   **DELETE /api/zonaPatio/{id}**\
     Remove uma zona de pátio.
 
-Instalação
+### 1️⃣ Exemplo de Requisição: Criar Moto (POST /api/Moto)
+
+```json
+{
+  "patioId": 1,
+  "placa": "ABC1234",
+  "modelo": "HondaCG160",
+  "ano": 2023,
+  "rfidTag": "RFID123456"
+}
+```
+### 2️⃣ Exemplo de Requisição: Atualizar Moto (PUT /api/moto/{id})
+
+```json
+{
+  "patioId": 2,
+  "placa": "XYZ9876",
+  "modelo": "YamahaFazer250",
+  "ano": 2022,
+  "rfidTag": "RFID654321"
+}
+```
+⚙️Instalação
 ----------
 
 Siga os passos abaixo para configurar e executar o projeto localmente:
 
-### Pré-requisitos
+### ✅Pré-requisitos
 
 -   **.NET 8 SDK**: [Download](https://dotnet.microsoft.com/download/dotnet/8.0)
 -   **Docker**: Para executar o container do SQL Server. [Download](https://www.docker.com/get-started)
@@ -97,7 +137,7 @@ Siga os passos abaixo para configurar e executar o projeto localmente:
 
 ### Passos de Instalação
 
-1.  **Clone o Repositório**
+1.  **🔽Clone o Repositório**
     -   Github:
 
         ```bash
@@ -111,18 +151,18 @@ Siga os passos abaixo para configurar e executar o projeto localmente:
         git clone git@ssh.dev.azure.com:v3/Challenge2025-Mottu/Mottu/trackin.dotnet.api
         ```
 
-2.  **Configure o SQL Server via Docker**
+2.  **🗄️Configure o SQL Server via Docker**
 
     -   Execute o seguinte comando para criar um container do SQL Server:
 
         ```bash
         docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=YourStrong@Passw0rd"  -p 1433:1433 --name sqlserver-trackin  -d mcr.microsoft.com/mssql/server:2022-latest
         ```
-        - Verifique e modifique de acordo com seu SO.
+        - ⚠Verifique e modifique de acordo com seu SO.
 
     -   Aguarde alguns segundos para o container inicializar completamente.
 
-3.  **Configure as Variáveis de Ambiente**
+3.  **⚠️Configure as Variáveis de Ambiente**
 
     -   Copie o arquivo `.env.example` para `.env` na raiz do projeto:
 
@@ -142,7 +182,7 @@ Siga os passos abaixo para configurar e executar o projeto localmente:
         DATABASE__NAME='TrackinDb'
         ```
 
-4.  **Restaure as Dependências**
+4.  **📦Restaure as Dependências**
 
     -   A partir da pasta raiz do projeto, execute o comando para restaurar os pacotes NuGet:
 
@@ -150,7 +190,7 @@ Siga os passos abaixo para configurar e executar o projeto localmente:
         dotnet restore
         ```
 
-5.  **Configure a Conexão com o Banco de Dados**
+5.  **🗄️Configure a Conexão com o Banco de Dados**
 
     -   Certifique-se de que o container do SQL Server está rodando:
 
@@ -160,7 +200,7 @@ Siga os passos abaixo para configurar e executar o projeto localmente:
 
     -   Você deve ver o container `sqlserver-trackin` na lista com status "Up".
 
-6.  **Aplique as Migrations**
+6.  **🏗️Aplique as Migrations**
     
     -   Entre na pasta raíz src:
         ```bash
@@ -174,7 +214,7 @@ Siga os passos abaixo para configurar e executar o projeto localmente:
 
     -   Se houver erros, verifique se o container está rodando e se as configurações no `.env` estão corretas.
 
-8.  **Execute a Aplicação**
+8.  **▶️Execute a Aplicação**
 
     -   Inicie o projeto: (ainda dentro de src):
 
@@ -189,7 +229,7 @@ Siga os passos abaixo para configurar e executar o projeto localmente:
 
     -   Acesse `https://localhost:5007/swagger` para explorar e testar os endpoints.
 
-### Comandos Úteis do Docker
+### 🐳Comandos Úteis do Docker
 
 -   **Parar o container:**
     ```bash
@@ -211,7 +251,7 @@ Siga os passos abaixo para configurar e executar o projeto localmente:
     docker logs sqlserver-trackin
     ```
 
-### Observações
+### 📌Observações
 
 -   O SQL Server precisa de pelo menos 2GB de RAM para funcionar adequadamente.
 -   A senha do SQL Server deve atender aos requisitos de complexidade (pelo menos 8 caracteres, maiúsculas, minúsculas, números e símbolos).
@@ -229,7 +269,7 @@ Notas Adicionais
 
 📄 [Baixar Documento Complementar (PDF)](doc_challenge_dotnet.pdf)
 
-Scripts Azure CLI (Devops)
+☁️Scripts Azure CLI (Devops)
 ----------------
 Criação Resource Group e VM:
 ```bash
@@ -252,25 +292,4 @@ az vm open-port --resource-group RG-ChallengeNET --name VM-ChallengeNET --port 5
 az vm open-port --resource-group RG-ChallengeNET --name VM-ChallengeNET --port 8080 --priority 1010
 az vm open-port --resource-group RG-ChallengeNET --name VM-ChallengeNET --port 8081 --priority 1011
 ```
-### 1️⃣ Exemplo de Requisição: Criar Moto (POST /api/Moto)
-
-```json
-{
-  "patioId": 1,
-  "placa": "ABC1234",
-  "modelo": "HondaCG160",
-  "ano": 2023,
-  "rfidTag": "RFID123456"
-}
-```
-### 2️⃣ Exemplo de Requisição: Atualizar Moto (PUT /api/moto/{id})
-
-```json
-{
-  "patioId": 2,
-  "placa": "XYZ9876",
-  "modelo": "YamahaFazer250",
-  "ano": 2022,
-  "rfidTag": "RFID654321"
-}
 
