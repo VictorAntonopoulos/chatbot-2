@@ -263,3 +263,18 @@ az vm open-port --resource-group RG-ChallengeNET --name VM-ChallengeNET --port 8
   "rfidTag": "RFID123456"
 }
 
+## 2️⃣ Atualizar Moto
+
+**Endpoint:** `PUT /api/moto/{id}`
+
+**Requisição:**
+
+```json
+{
+  "patioId": 2,
+  "placa": "XYZ9876",
+  "modelo": "YamahaFazer250",
+  "ano": 2022,
+  "rfidTag": "RFID654321"
+}
+
