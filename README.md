@@ -265,6 +265,7 @@ az vm open-port --resource-group RG-ChallengeNET --name VM-ChallengeNET --port 8
 ```
 2️⃣ Atualizar Moto, Requisição: (PUT /api/moto/{id}
 
+```json
 {
   "patioId": 2,
   "placa": "XYZ9876",
