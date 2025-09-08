@@ -119,16 +119,49 @@ Abaixo estão as rotas implementadas, baseadas nos controllers fornecidos. Todas
   "rfidTag": "RFID123456"
 }
 ```
-### 2️⃣ Exemplo de Requisição: Atualizar Moto (PUT /api/moto/{id})
+### 2️⃣ Exemplo de Requisição: Criar Pátio (POST /api/Patio
 
 ```json
 {
-  "patioId": 2,
-  "placa": "XYZ9876",
-  "modelo": "YamahaFazer250",
-  "ano": 2022,
-  "rfidTag": "RFID654321"
+  "nome": "Pátio Central",
+  "endereco": "Av. Brasil, 1234",
+  "cidade": "São Paulo",
+  "estado": "SP",
+  "pais": "Brasil",
+  "dimensaoX": 500,
+  "dimensaoY": 300,
+  "plantaBaixa": "planta_central.png"
 }
+
+```
+### 3️⃣ Exemplo de Requisição: Criar Sensor RFID (POST /api/SensorRFID
+
+```json
+{
+  "zonaPatioId": 1,
+  "patioId": 1,
+  "posicao": "Entrada Leste",
+  "posicaoX": 100,
+  "posicaoY": 200,
+  "altura": 5,
+  "anguloVisao": 90
+}
+
+```
+### 4️⃣ Exemplo de Requisição: Zona de Pátio (POST /api/ZonaPatio
+
+```json
+{
+  "patioId": 1,
+  "nome": "Zona A",
+  "tipoZona": 0,
+  "coordenadaInicialX": 0,
+  "coordenadaInicialY": 0,
+  "coordenadaFinalX": 100,
+  "coordenadaFinalY": 50,
+  "cor": "#FF0000"
+}
+
 ```
 ⚙️Instalação
 ----------
