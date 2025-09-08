@@ -64,7 +64,7 @@ Abaixo estão as rotas implementadas, baseadas nos controllers fornecidos. Todas
 
 -   **GET /api/patio**\
     Recupera todos os pátios cadastrados no sistema com paginação.
-    **POST /api/patio**\
+-    **POST /api/patio**\
     Cria um novo pátio.
 -   **GET /api/patio/all**\
     Recupera todos os pátios cadastrados no sistema.
@@ -82,6 +82,7 @@ Abaixo estão as rotas implementadas, baseadas nos controllers fornecidos. Todas
 
 -   **GET /api/sensorRFID**\
     Recupera todos os sensores RFID cadastrados com paginação.
+    -   **POST /api/sensorRFID**\
     **POST /api/sensorRFID**\
     Cria um novo sensor RFID.
 -   **GET /api/sensorRFID/all**\
